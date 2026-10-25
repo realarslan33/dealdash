@@ -2,8 +2,6 @@
 
 The DealDash backend provides the Express API, MongoDB data layer, email notifications, local image uploads, and Socket.IO messaging service.
 
-**Project builder:** Arslan Ahmed
-
 ## Requirements
 
 - Node.js 18.16 or newer

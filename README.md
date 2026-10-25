@@ -2,8 +2,6 @@
 
 DealDash is a multi-vendor shopping platform where customers can discover products from independent shops, place orders, and stay in touch with sellers. Sellers manage their storefronts through a dashboard, while administrators oversee marketplace activity.
 
-**Project builder:** Arslan Ahmed
-
 ## What you can do
 
 - **Shop:** Browse and search products, explore events, save favorites, use coupons, and add items to a cart.
