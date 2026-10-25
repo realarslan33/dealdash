@@ -1,3 +1,5 @@
-export const server = "http://localhost:8000/api/v2";
+const apiOrigin = (process.env.REACT_APP_API_ORIGIN || "http://localhost:8000").replace(/\/+$/, "");
 
-export const backend_url = "http://localhost:8000/";
+export const server = `${apiOrigin}/api/v2`;
+
+export const backend_url = `${apiOrigin}/`;
