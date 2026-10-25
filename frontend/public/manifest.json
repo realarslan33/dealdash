@@ -1,0 +1,16 @@
+{
+  "short_name": "DealDash",
+  "name": "DealDash",
+  "icons": [
+    {
+      "src": "dealdash-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#3957db",
+  "background_color": "#ffffff"
+}
