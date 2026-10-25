@@ -2,8 +2,6 @@
 
 The DealDash frontend is a React application for marketplace customers, sellers, and administrators. It includes storefront browsing, checkout, account pages, shop management, and admin dashboards.
 
-**Project builder:** Arslan Ahmed
-
 ## Requirements
 
 - Node.js 18.16 or newer
