@@ -1,5 +1,6 @@
 # DealDash
 **🌐 Live Website:** [Visit DealDash](https://dealdashh.netlify.app)
+
 DealDash is a multi-vendor shopping platform where customers can discover products from independent shops, place orders, and stay in touch with sellers. Sellers manage their storefronts through a dashboard, while administrators oversee marketplace activity.
 
 ## What you can do
