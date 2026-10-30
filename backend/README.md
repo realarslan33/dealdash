@@ -1,6 +1,6 @@
 # DealDash Backend
 
-The DealDash backend provides the Express API, MongoDB data layer, email notifications, local image uploads, and Socket.IO messaging service.
+The DealDash backend provides the Express API, MongoDB data layer, email notifications, Cloudinary image uploads, and Socket.IO messaging service.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ npm run dev
 
 `npm run dev` starts the API with nodemon. Use `npm start` to run it with Node.js directly. The server listens on port `8000` unless `PORT` is set. The frontend uses `http://localhost:8000/api/v2` by default.
 
-Before starting, create `config/.env` and make sure the `uploads/` directory exists. Both paths are ignored by Git. The server loads `config/.env` during local development.
+Before starting, create `config/.env`. The server loads `config/.env` during local development; on Render, set these values in the service's environment configuration. Create a Cloudinary account and add its cloud name, API key, and API secret:
 
 ```dotenv
 PORT=8000
@@ -35,6 +35,10 @@ STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
 
 RESEND_API_KEY=re_your_resend_api_key
 RESEND_FROM_EMAIL="DealDash <mail@your-verified-domain.example>"
+
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 ```
 
 Use credentials from your own MongoDB, Stripe, and Resend accounts. Configure the sender address with a domain authorized in Resend. Email credentials are needed for routes that send email; those operations return an error if Resend is not configured. Keep this file and all private keys out of source control.
@@ -56,7 +60,7 @@ All JSON API routes are mounted under `/api/v2`:
 
 The Socket.IO server shares the API's HTTP server and port. `GET /test` returns a simple response to check that the API is reachable.
 
-Password reset links expire after one hour. Uploaded files are stored in `uploads/` and served by the backend. The Resend integration sends plain-text activation, password reset, and withdrawal emails.
+Password reset links expire after one hour. User avatars, shop logos, product images, event images, and chat images are uploaded to Cloudinary; their secure URLs are stored in MongoDB. Existing filename-only image records continue to use the backend's legacy static upload path. The Resend integration sends plain-text activation, password reset, and withdrawal emails.
 
 ## Code map
 

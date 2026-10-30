@@ -11,7 +11,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import socketIO from "socket.io-client";
 import { format } from "timeago.js";
-import { backend_url, server } from "../../server";
+import { backend_url, getImageUrl, server } from "../../server";
 import { mergeMessages } from "../../utils/chatMessages";
 import {
   FiSend,
@@ -30,13 +30,13 @@ const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 const resolveAvatarUrl = (avatar) => {
   if (!avatar) return null;
   if (/^https?:\/\//i.test(avatar)) return avatar;
-  return `${backend_url}${avatar.replace(/^\/+/, "")}`;
+  return `${getImageUrl(avatar.replace(/^\/+/, ""))}`;
 };
 
 const resolveImageUrl = (img) => {
   if (!img) return null;
   if (/^https?:\/\//i.test(img)) return img;
-  return `${backend_url}${img.replace(/^\/+/, "")}`;
+  return `${getImageUrl(img.replace(/^\/+/, ""))}`;
 };
 
 const DashboardMessages = () => {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteProduct, getAllProductsShop } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 import { toast } from "react-toastify";
 import { AiOutlineEye } from "react-icons/ai";
 import {
@@ -203,7 +203,7 @@ const AllProducts = () => {
             renderCell: (params) => {
                 const row = params.row;
                 const imageUrl = row.image
-                    ? `${backend_url}/${row.image}`
+                    ? `${getImageUrl(row.image)}`
                     : null;
 
                 return (

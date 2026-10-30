@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye } from "react-icons/ai";
 import { FiClock, FiPackage, FiShoppingBag } from "react-icons/fi";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 import Ratings from "../Products/Ratings";
 
 const ShopProductCard = ({ data, isEvent }) => {
@@ -87,7 +87,7 @@ const ShopProductCard = ({ data, isEvent }) => {
             alt={data.name}
             className="h-full w-full object-contain mix-blend-multiply"
             src={
-              data.images?.[0] ? `${backend_url}${productImage}` : productImage
+              data.images?.[0] ? `${getImageUrl(productImage)}` : productImage
             }
           />
         ) : (

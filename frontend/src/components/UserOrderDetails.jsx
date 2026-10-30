@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { backend_url, server } from "../server";
+import { getImageUrl, server } from "../server";
 import { RxCross1 } from "react-icons/rx";
 import { getAllOrdersOfUser } from "../redux/actions/order";
 import { useDispatch, useSelector } from "react-redux";
@@ -291,7 +291,7 @@ const UserOrderDetails = () => {
         <div className="divide-y divide-[#dce4f1]">
           {data.cart?.map((item) => {
             const imgSrc = item.images?.[0]
-              ? `${backend_url}${item.images[0]}`
+              ? `${getImageUrl(item.images[0])}`
               : item.image_Url?.[0]?.url;
 
             return (
@@ -487,7 +487,7 @@ const UserOrderDetails = () => {
               <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md border border-[#e2e8f0] bg-white p-1 flex items-center justify-center">
                 {selectedItem?.images?.[0] ? (
                   <img
-                    src={`${backend_url}${selectedItem.images[0]}`}
+                    src={`${getImageUrl(selectedItem.images[0])}`}
                     alt={selectedItem.name}
                     className="h-full w-full object-contain mix-blend-multiply"
                   />

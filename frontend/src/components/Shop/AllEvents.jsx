@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteEvent, getAllEventsShop } from "../../redux/actions/event";
 import Loader from "../Layout/Loader";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 import { toast } from "react-toastify";
 import { AiOutlineEye } from "react-icons/ai";
 import {
@@ -270,7 +270,7 @@ const AllEvents = () => {
             flex: 1.5,
             renderCell: (params) => {
                 const row = params.row;
-                const imageUrl = row.image ? `${backend_url}/${row.image}` : null;
+                const imageUrl = row.image ? `${getImageUrl(row.image)}` : null;
 
                 return (
                     <div className="flex items-center gap-3 py-1.5 min-w-0">

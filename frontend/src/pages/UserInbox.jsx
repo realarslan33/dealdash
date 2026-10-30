@@ -10,7 +10,7 @@ import Footer from "../components/Layout/Footer";
 import { useSelector } from "react-redux";
 import socketIO from "socket.io-client";
 import { format } from "timeago.js";
-import { backend_url, server } from "../server";
+import { backend_url, getImageUrl, server } from "../server";
 import { mergeMessages } from "../utils/chatMessages";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -455,7 +455,7 @@ const MessageListItem = ({
   const avatarUrl = shop?.avatar
     ? /^https?:\/\//i.test(shop.avatar)
       ? shop.avatar
-      : `${backend_url}${shop.avatar.replace(/^\/+/, "")}`
+      : `${getImageUrl(shop.avatar.replace(/^\/+/, ""))}`
     : null;
 
   return (
@@ -532,7 +532,7 @@ const ChatThreadView = ({
   const avatarUrl = userData?.avatar
     ? /^https?:\/\//i.test(userData.avatar)
       ? userData.avatar
-      : `${backend_url}${userData.avatar.replace(/^\/+/, "")}`
+      : `${getImageUrl(userData.avatar.replace(/^\/+/, ""))}`
     : null;
 
   return (
@@ -620,7 +620,7 @@ const ChatThreadView = ({
                         src={
                           /^https?:\/\//i.test(item.images)
                             ? item.images
-                            : `${backend_url}${item.images.replace(/^\/+/, "")}`
+                            : `${getImageUrl(item.images.replace(/^\/+/, ""))}`
                         }
                         alt="Attachment"
                         className="max-h-60 w-auto object-cover"

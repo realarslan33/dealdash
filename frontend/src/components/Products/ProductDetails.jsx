@@ -9,7 +9,7 @@ import {
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
-import { backend_url, server } from "../../server";
+import { getImageUrl, server } from "../../server";
 import {
   addToWishlist,
   removeFromWishlist,
@@ -162,7 +162,7 @@ const ProductDetails = ({ data }) => {
                     <img
                       alt=""
                       className="max-h-[58px] max-w-[58px] object-contain sm:max-h-[78px] sm:max-w-[78px] lg:max-h-[92px] lg:max-w-[92px]"
-                      src={`${backend_url}${image}`}
+                      src={`${getImageUrl(image)}`}
                     />
                   </button>
                 ))}
@@ -182,7 +182,7 @@ const ProductDetails = ({ data }) => {
                   <img
                     alt={data.name}
                     className="h-full w-full object-contain"
-                    src={`${backend_url}${data.images[select]}`}
+                    src={`${getImageUrl(data.images[select])}`}
                   />
                 ) : (
                   <span className="text-sm text-slate-400">Image unavailable</span>
@@ -430,7 +430,7 @@ const ProductDetailsInfo = ({
                 const avatarUrl = avatar
                   ? /^https?:\/\//i.test(avatar)
                     ? avatar
-                    : `${backend_url}${avatar.replace(/^\/+/, "")}`
+                    : `${getImageUrl(avatar.replace(/^\/+/, ""))}`
                   : null;
 
                 return (
@@ -536,7 +536,7 @@ const ProductDetailsInfo = ({
               <img
                 alt=""
                 className="h-14 w-14 rounded-full object-cover sm:h-16 sm:w-16"
-                src={`${backend_url}${shopInfo.avatar || ""}`}
+                src={`${getImageUrl(shopInfo.avatar || "")}`}
               />
               <div>
                 <h3 className="text-lg font-semibold text-[#078bd0] sm:text-xl">

@@ -3,7 +3,7 @@ import { Country, State } from "country-state-city";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { server, backend_url } from "../../server";
+import { server, getImageUrl } from "../../server";
 import { toast } from "react-toastify";
 import { FiTruck, FiLock, FiCheck } from "react-icons/fi";
 import {
@@ -535,7 +535,7 @@ const CartData = ({
             <div className="h-12 w-12 shrink-0 rounded-md bg-[#f3f4f6] p-1 border border-[#e2e8f0] flex items-center justify-center overflow-hidden">
               {item.images?.[0] ? (
                 <img
-                  src={`${backend_url}${item.images[0]}`}
+                  src={`${getImageUrl(item.images[0])}`}
                   alt={item.name}
                   className="h-full w-full object-contain mix-blend-multiply"
                 />

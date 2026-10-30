@@ -6,7 +6,7 @@ import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { addTocart } from "../../redux/actions/cart";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 
 const Wishlist = ({ setOpenWishlist }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -116,7 +116,7 @@ const WishlistItem = ({
           <img
             alt={data.name}
             className="h-full w-full object-contain mix-blend-multiply"
-            src={`${backend_url}${image}`}
+            src={`${getImageUrl(image)}`}
           />
         ) : (
           <AiOutlineHeart className="text-[#b6c3d8]" size={26} />

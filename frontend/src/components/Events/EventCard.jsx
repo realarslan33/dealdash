@@ -13,7 +13,7 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../redux/actions/wishlist";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 import CountDown from "./CountDown";
 
 const EventCard = ({ active, data }) => {
@@ -25,7 +25,7 @@ const EventCard = ({ active, data }) => {
   const imageUrl = image
     ? /^https?:\/\//i.test(image)
       ? image
-      : `${backend_url}${image.replace(/^\/+/, "")}`
+      : `${getImageUrl(image.replace(/^\/+/, ""))}`
     : null;
   const originalPrice = Number(data.originalPrice) || 0;
   const discountPrice = Number(data.discountPrice) || 0;

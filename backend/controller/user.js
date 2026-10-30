@@ -1,9 +1,8 @@
 const express = require("express");
-const path = require("path");
 const User = require("../model/user");
-const { upload } = require("../multer");
+const { upload, uploadToCloudinary } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
-const fs = require("fs");
+const { deleteImage } = require("../utils/cloudinary");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
@@ -47,11 +46,11 @@ router.post(
   })
 );
 
-router.post("/create-user", upload.single("file"), async (req, res, next) => {
+router.post("/create-user", upload.single("file"), uploadToCloudinary("users"), async (req, res, next) => {
   try {
     const validationError = validateRegistration(req.body);
     if (validationError) {
-      if (req.file) fs.unlink(req.file.path, () => {});
+      if (req.file) await deleteImage(req.file.url);
       return next(new ErrorHandler(validationError, 400));
     }
 
@@ -62,13 +61,13 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
 
     if (userEmail) {
       // if user already exists account is not created and file is deleted
-      if (req.file) fs.unlink(req.file.path, () => {});
+      if (req.file) await deleteImage(req.file.url);
 
       return next(new ErrorHandler("User already exists", 400));
     }
 
     const fileUrl = req.file
-      ? path.join(req.file.filename)
+      ? req.file.url
       : "assets/default-avatar.svg";
 
     const user = {
@@ -95,7 +94,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
         message: `Please check your email (${user.email}) to activate your account. If you don't see it in your inbox, check your spam folder too.`,
       });
     } catch (err) {
-      if (req.file) fs.unlink(req.file.path, () => {});
+      if (req.file) await deleteImage(req.file.url);
       return next(new ErrorHandler("Could not send the activation email. Check the email settings and try again.", 500));
     }
   } catch (err) {
@@ -266,15 +265,13 @@ router.put(
   "/update-avatar",
   isAuthenticated,
   upload.single("image"),
+  uploadToCloudinary("users"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const existsUser = await User.findById(req.user.id);
 
-      const existAvatarPath = `uploads/${existsUser.avatar}`;
-
-      fs.unlinkSync(existAvatarPath); // Delete Priviuse Image
-
-      const fileUrl = path.join(req.file.filename); // new image
+      if (!req.file) return next(new ErrorHandler("Please select an image.", 400));
+      const fileUrl = req.file.url;
 
       /* The code `const user = await User.findByIdAndUpdate(req.user.id, { avatar: fileUrl });` is
         updating the avatar field of the user with the specified `req.user.id`. It uses the
@@ -283,6 +280,7 @@ router.put(
       const user = await User.findByIdAndUpdate(req.user.id, {
         avatar: fileUrl,
       });
+      await deleteImage(existsUser.avatar);
 
       res.status(200).json({
         success: true,

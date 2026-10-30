@@ -33,7 +33,7 @@ app.use(
 );
 
 app.use("/assets", express.static(path.join(__dirname, "public")));
-app.use("/", express.static("uploads"));
+app.use("/", express.static(path.join(__dirname, "uploads")));
 
 app.get("/test", (req, res) => {
   res.send("Hello World!");

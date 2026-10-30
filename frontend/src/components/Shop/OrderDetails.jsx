@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { backend_url, server } from "../../server";
+import { getImageUrl, server } from "../../server";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -92,10 +92,7 @@ const getStatusBadge = (status) => {
 const getProductImage = (item) => {
   if (item?.images?.[0]) {
     const img = item.images[0];
-    if (img.startsWith("http://") || img.startsWith("https://")) {
-      return img;
-    }
-    return `${backend_url.replace(/\/$/, "")}/${img.replace(/^\//, "")}`;
+    return getImageUrl(img);
   }
   if (item?.image_Url?.[0]?.url) {
     return item.image_Url[0].url;

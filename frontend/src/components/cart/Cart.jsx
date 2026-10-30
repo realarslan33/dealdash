@@ -5,7 +5,7 @@ import { IoBagHandleOutline } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 import { addTocart, removeFromCart } from "../../redux/actions/cart";
 
 const Cart = ({ setOpenCart }) => {
@@ -152,7 +152,7 @@ const CartItem = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
           <img
             alt={data.name}
             className="h-full w-full object-contain mix-blend-multiply"
-            src={`${backend_url}${image}`}
+            src={`${getImageUrl(image)}`}
           />
         ) : (
           <IoBagHandleOutline className="text-[#b6c3d8]" size={26} />

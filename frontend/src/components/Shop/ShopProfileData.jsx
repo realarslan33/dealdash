@@ -5,7 +5,7 @@ import { getAllProductsShop } from "../../redux/actions/product";
 import styles from "../../styles/styles";
 import ProductCard from "../Route/ProductCard/ProductCard";
 import ShopProductCard from "./ShopProductCard";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 import Ratings from "../Products/Ratings";
 import { getAllEventsShop } from "../../redux/actions/event";
 import { CgProfile } from "react-icons/cg";
@@ -152,7 +152,7 @@ const ShopProfileData = ({ isOwner }) => {
               >
                 {item.user?.avatar ? (
                   <img
-                    src={`${backend_url}${item.user.avatar}`}
+                    src={`${getImageUrl(item.user.avatar)}`}
                     className="h-12 w-12 shrink-0 rounded-full border border-[#dce4f1] object-cover"
                     alt=""
                   />

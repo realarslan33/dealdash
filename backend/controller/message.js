@@ -2,22 +2,20 @@ const Messages = require("../model/messages");
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const express = require("express");
-const { upload } = require("../multer");
+const { upload, uploadToCloudinary } = require("../multer");
 const router = express.Router();
-const path = require("path");
 
 // create new message
 router.post(
   "/create-new-message",
   upload.single("images"),
+  uploadToCloudinary("messages"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const messageData = req.body;
 
       if (req.file) {
-        const filename = req.file.filename;
-        const fileUrl = path.join(filename);
-        messageData.images = fileUrl;
+        messageData.images = req.file.url;
       }
 
       messageData.conversationId = req.body.conversationId;

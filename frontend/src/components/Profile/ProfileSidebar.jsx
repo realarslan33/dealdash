@@ -10,7 +10,7 @@ import {
 } from "react-icons/md";
 import { TbAddressBook } from "react-icons/tb";
 import axios from "axios";
-import { backend_url, server } from "../../server";
+import { getImageUrl, server } from "../../server";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -51,7 +51,7 @@ const ProfileSidebar = ({ active, setActive }) => {
         <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full border border-[#dce4f1] bg-[#f1f4f9]">
           {user?.avatar ? (
             <img
-              src={`${backend_url}${user.avatar}`}
+              src={`${getImageUrl(user.avatar)}`}
               alt={user?.name || "User"}
               className="h-full w-full object-cover"
             />

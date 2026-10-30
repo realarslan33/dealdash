@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../Layout/Loader";
-import { server, backend_url } from "../../server";
+import { server, getImageUrl } from "../../server";
 import { getAllProductsShop } from "../../redux/actions/product";
 import { AiOutlineGift } from "react-icons/ai";
 import {
@@ -1147,7 +1147,7 @@ const AllCoupons = () => {
                                                                     <div className="h-7 w-7 shrink-0 overflow-hidden rounded border border-[#dce4f1] bg-[#f8fbff] flex items-center justify-center">
                                                                         {firstImage ? (
                                                                             <img
-                                                                                src={`${backend_url}/${firstImage}`}
+                                                                                src={`${getImageUrl(firstImage)}`}
                                                                                 alt=""
                                                                                 className="h-full w-full object-cover"
                                                                                 onError={(e) => {

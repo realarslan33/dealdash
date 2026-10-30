@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { backend_url, server } from "../../server";
+import { getImageUrl, server } from "../../server";
 import { AiOutlineCamera } from "react-icons/ai";
 import { FiExternalLink, FiInfo, FiMapPin, FiPhone, FiMail, FiCheck } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -96,7 +96,7 @@ const ShopSettings = () => {
     const avatarUrl = avatar
         ? URL.createObjectURL(avatar)
         : seller?.avatar
-        ? `${backend_url}${seller.avatar.startsWith("/") ? "" : "/"}${seller.avatar}`
+        ? getImageUrl(seller.avatar)
         : null;
 
     return (

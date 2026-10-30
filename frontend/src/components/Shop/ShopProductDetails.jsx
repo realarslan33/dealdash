@@ -12,7 +12,7 @@ import {
   FiCalendar,
   FiInfo,
 } from "react-icons/fi";
-import { backend_url } from "../../server";
+import { getImageUrl } from "../../server";
 import DashboardHeader from "./Layout/DashboardHeader";
 import Ratings from "../Products/Ratings";
 import styles from "../../styles/styles";
@@ -168,7 +168,7 @@ const ShopProductDetails = ({ data, isEvent }) => {
                         aria-label={`View image ${index + 1}`}
                       >
                         <img
-                          src={`${backend_url}${img}`}
+                          src={`${getImageUrl(img)}`}
                           alt=""
                           className="h-full w-full object-contain mix-blend-multiply"
                         />
@@ -197,7 +197,7 @@ const ShopProductDetails = ({ data, isEvent }) => {
 
                   {images[select] ? (
                     <img
-                      src={`${backend_url}${images[select]}`}
+                      src={`${getImageUrl(images[select])}`}
                       alt={data.name}
                       className="h-full w-full object-contain mix-blend-multiply"
                     />
@@ -436,7 +436,7 @@ const ShopProductDetails = ({ data, isEvent }) => {
                         const avatarUrl = avatar
                           ? /^https?:\/\//i.test(avatar)
                             ? avatar
-                            : `${backend_url}${avatar.replace(/^\/+/, "")}`
+                            : `${getImageUrl(avatar.replace(/^\/+/, ""))}`
                           : null;
 
                         return (

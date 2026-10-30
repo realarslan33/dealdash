@@ -9,7 +9,7 @@ import { CgProfile } from "react-icons/cg";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import { categoriesData } from "../../static/data";
-import { backend_url, server } from "../../server";
+import { getImageUrl, server } from "../../server";
 import Cart from "../cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import DropDown from "./DropDown";
@@ -94,7 +94,7 @@ const Header = ({ activeHeading }) => {
               <img
                 alt=""
                 className="h-10 w-10 object-contain"
-                src={product.images?.[0] ? `${backend_url}${product.images[0]}` : product.image_Url[0].url}
+                src={product.images?.[0] ? `${getImageUrl(product.images[0])}` : product.image_Url[0].url}
               />
             )}
             <span className="line-clamp-2 text-sm">{product.name}</span>
@@ -219,7 +219,7 @@ const Header = ({ activeHeading }) => {
                   <img
                     alt=""
                     className="h-8 w-8 rounded-full object-cover"
-                    src={`${backend_url}${user.avatar}`}
+                    src={`${getImageUrl(user.avatar)}`}
                   />
                 ) : (
                   <CgProfile className="text-[26px]" />

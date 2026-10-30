@@ -22,12 +22,12 @@ DealDash is a multi-vendor shopping platform where customers can discover produc
 | Live messaging | Socket.IO |
 | Payments | Stripe, PayPal, cash on delivery |
 | Email | Resend |
-| Uploads | Multer, local backend uploads directory |
+| Uploads | Multer, Cloudinary |
 
 ## Project layout
 
 ```text
-backend/    Express API, MongoDB models, email utilities, uploads, and Socket.IO
+backend/    Express API, MongoDB models, email utilities, Cloudinary uploads, and Socket.IO
 frontend/   React customer, seller, and admin interfaces
 ```
 

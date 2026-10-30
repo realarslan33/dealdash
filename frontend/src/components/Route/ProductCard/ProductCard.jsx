@@ -12,7 +12,7 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../../redux/actions/wishlist";
-import { backend_url } from "../../../server";
+import { getImageUrl } from "../../../server";
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard.jsx";
 import Ratings from "../../Products/Ratings";
 import { FiClock } from "react-icons/fi";
@@ -103,7 +103,7 @@ const ProductCard = ({ data, isEvent }) => {
             <img
               alt={data.name}
               className="h-full w-full object-contain mix-blend-multiply"
-              src={data.images?.[0] ? `${backend_url}${productImage}` : productImage}
+              src={data.images?.[0] ? `${getImageUrl(productImage)}` : productImage}
             />
           ) : (
             <span className="text-sm text-slate-400">Image unavailable</span>

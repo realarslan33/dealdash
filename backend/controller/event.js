@@ -1,18 +1,19 @@
 const express = require("express");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const { upload } = require("../multer");
+const { upload, uploadToCloudinary } = require("../multer");
 const Shop = require("../model/shop");
 const Event = require("../model/event");
 const Order = require("../model/order");
 const ErrorHandler = require("../utils/ErrorHandler");
 const { isSeller, isAdmin, isAuthenticated } = require("../middleware/auth");
 const router = express.Router();
-const fs = require("fs");
+const { deleteImage } = require("../utils/cloudinary");
 
 // create event
 router.post(
   "/create-event",
   upload.array("images"),
+  uploadToCloudinary("events"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
@@ -21,7 +22,7 @@ router.post(
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {
         const files = req.files;
-        const imageUrls = files.map((file) => `${file.filename}`);
+        const imageUrls = files.map((file) => file.url);
 
         const eventData = req.body;
         eventData.images = imageUrls;
@@ -80,16 +81,7 @@ router.delete(
 
       const eventData = await Event.findById(productId);
 
-      eventData.images.forEach((imageUrl) => {
-        const filename = imageUrl;
-        const filePath = `uploads/${filename}`;
-
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
-      });
+      await Promise.all((eventData.images || []).map(deleteImage));
 
       const event = await Event.findByIdAndDelete(productId);
 

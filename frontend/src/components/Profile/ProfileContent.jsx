@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { backend_url, server } from "../../server";
+import { getImageUrl, server } from "../../server";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUserAddress,
@@ -106,7 +106,7 @@ const ProfileContent = ({ active }) => {
               <div className="h-28 w-28 sm:h-32 sm:w-32 rounded-full border-4 border-[#eef2ff] shadow-sm overflow-hidden bg-[#f1f4f9] flex items-center justify-center">
                 {user?.avatar ? (
                   <img
-                    src={`${backend_url}${user.avatar}`}
+                    src={`${getImageUrl(user.avatar)}`}
                     className="h-full w-full object-cover"
                     alt={user?.name || "Profile"}
                   />

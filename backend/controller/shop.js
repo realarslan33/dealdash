@@ -1,12 +1,11 @@
 const express = require("express");
-const path = require("path");
 const router = express.Router();
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMail");
 const Shop = require("../model/shop");
 const { isAuthenticated, isSeller, isAdmin } = require("../middleware/auth");
-const { upload } = require("../multer");
+const { upload, uploadToCloudinary } = require("../multer");
+const { deleteImage } = require("../utils/cloudinary");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 
@@ -48,7 +47,7 @@ router.post(
 );
 
 // create shop
-router.post("/create-shop", upload.single("file"), async (req, res, next) => {
+router.post("/create-shop", upload.single("file"), uploadToCloudinary("shops"), async (req, res, next) => {
   try {
     if (!req.file) {
       return next(
@@ -58,7 +57,7 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
 
     const validationError = validateRegistration(req.body);
     if (validationError) {
-      fs.unlink(req.file.path, () => {});
+      await deleteImage(req.file.url);
       return next(new ErrorHandler(validationError, 400));
     }
     const name = req.body.name.trim();
@@ -72,19 +71,18 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
       !phoneNumber ||
       !zipCode
     ) {
-      fs.unlink(req.file.path, () => {});
+      await deleteImage(req.file.url);
       return next(new ErrorHandler("Please enter a valid address, phone number, and ZIP code.", 400));
     }
 
     const sellerEmail = await Shop.findOne({ email });
 
     if (sellerEmail) {
-      fs.unlink(req.file.path, () => {});
+      await deleteImage(req.file.url);
       return next(new ErrorHandler("A shop with this email already exists", 400));
     }
 
-    const filename = req.file.filename;
-    const fileUrl = path.join(filename);
+    const fileUrl = req.file.url;
 
     const seller = {
       name,
@@ -112,7 +110,7 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
         message: `Please check your email (${seller.email}) to activate your shop. If you don't see it in your inbox, check your spam folder too.`,
       });
     } catch (error) {
-      fs.unlink(req.file.path, () => {});
+      await deleteImage(req.file.url);
       return next(new ErrorHandler("Could not send the activation email. Check the email settings and try again.", 500));
     }
   } catch (error) {
@@ -262,19 +260,18 @@ router.put(
   "/update-shop-avatar",
   isSeller,
   upload.single("image"),
+  uploadToCloudinary("shops"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const existsUser = await Shop.findById(req.seller._id);
 
-      const existAvatarPath = `uploads/${existsUser.avatar}`;
-
-      fs.unlinkSync(existAvatarPath);
-
-      const fileUrl = path.join(req.file.filename);
+      if (!req.file) return next(new ErrorHandler("Please select an image.", 400));
+      const fileUrl = req.file.url;
 
       const seller = await Shop.findByIdAndUpdate(req.seller._id, {
         avatar: fileUrl,
       });
+      await deleteImage(existsUser.avatar);
 
       res.status(200).json({
         success: true,
