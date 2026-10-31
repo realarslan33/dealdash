@@ -37,7 +37,7 @@ const ShopInfo = ({ isOwner }) => {
             });
             dispatch({ type: "LogoutSeller" });
             dispatch({ type: "LogoutUser" });
-            window.location.assign("/login");
+            window.location.assign("/shop-login");
         } catch (error) {
             console.error("Shop logout failed:", error);
         }
