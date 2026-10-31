@@ -1,5 +1,6 @@
 const multer = require("multer");
 const cloudinary = require("./utils/cloudinary");
+const ErrorHandler = require("./utils/ErrorHandler");
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -34,7 +35,19 @@ const uploadToCloudinary = (folder) => async (req, res, next) => {
     );
     next();
   } catch (error) {
-    next(error);
+    console.error("Cloudinary image upload failed:", {
+      message: error.message,
+      statusCode: error.http_code || error.statusCode,
+      cloudNameConfigured: Boolean(process.env.CLOUDINARY_CLOUD_NAME),
+      apiKeyConfigured: Boolean(process.env.CLOUDINARY_API_KEY),
+      apiSecretConfigured: Boolean(process.env.CLOUDINARY_API_SECRET),
+    });
+    const statusCode = error.http_code || error.statusCode || 502;
+    const message =
+      statusCode === 403
+        ? "Cloudinary rejected this upload (403). Verify the Cloudinary account is active and check its upload restrictions for this product environment. Confirm the CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET on Render belong to that same environment."
+        : error.message || "Cloudinary image upload failed.";
+    next(new ErrorHandler(message, statusCode));
   }
 };
 

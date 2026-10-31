@@ -116,7 +116,6 @@ const Header = ({ activeHeading }) => {
       .get(`${server}/user/logout`, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message || "Log out successful!");
-        window.location.reload(true);
         navigate("/login");
       })
       .catch((error) => {
