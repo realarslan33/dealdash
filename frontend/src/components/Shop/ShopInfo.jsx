@@ -35,6 +35,8 @@ const ShopInfo = ({ isOwner }) => {
             await axios.get(`${server}/shop/logout`, {
                 withCredentials: true,
             });
+            dispatch({ type: "LogoutSeller" });
+            dispatch({ type: "LogoutUser" });
             window.location.assign("/login");
         } catch (error) {
             console.error("Shop logout failed:", error);

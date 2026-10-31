@@ -12,10 +12,11 @@ import { TbAddressBook } from "react-icons/tb";
 import axios from "axios";
 import { getImageUrl, server } from "../../server";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProfileSidebar = ({ active, setActive }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
   const logoutHandler = () => {
@@ -23,7 +24,9 @@ const ProfileSidebar = ({ active, setActive }) => {
       .get(`${server}/user/logout`, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message);
+        dispatch({ type: "LogoutUser" });
         navigate("/login");
+        window.location.reload();
       })
       .catch((error) => {
         toast.error(error.response?.data?.message || "Unable to connect to the server.");

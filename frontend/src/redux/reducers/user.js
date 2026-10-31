@@ -5,6 +5,7 @@ const initialState = {
 };
 
 export const userReducer = createReducer(initialState, {
+  LogoutUser: () => initialState,
   LoadUserRequest: (state) => {
     state.loading = true;
     // state.loading meaning: if loading is true, then the user is not authenticated

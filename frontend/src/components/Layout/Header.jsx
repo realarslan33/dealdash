@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
@@ -17,6 +17,7 @@ import Navbar from "./Navbar";
 
 const Header = ({ activeHeading }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { isSeller } = useSelector((state) => state.seller);
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -116,7 +117,9 @@ const Header = ({ activeHeading }) => {
       .get(`${server}/user/logout`, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message || "Log out successful!");
+        dispatch({ type: "LogoutUser" });
         navigate("/login");
+        window.location.reload();
       })
       .catch((error) => {
         toast.error(error.response?.data?.message || "Unable to connect to the server.");

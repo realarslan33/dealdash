@@ -5,6 +5,7 @@ const initialState = {
 };
 
 export const sellerReducer = createReducer(initialState, {
+  LogoutSeller: () => initialState,
   LoadSellerRequest: (state) => {
     state.isLoading = true;
   },
