@@ -35,11 +35,15 @@ const ShopInfo = ({ isOwner }) => {
             await axios.get(`${server}/shop/logout`, {
                 withCredentials: true,
             });
-            dispatch({ type: "LogoutSeller" });
-            dispatch({ type: "LogoutUser" });
-            window.location.assign("/shop-login");
         } catch (error) {
             console.error("Shop logout failed:", error);
+        } finally {
+            // Clear seller auth before leaving so cached seller data cannot
+            // keep protected screens visible during navigation.
+            dispatch({ type: "LogoutSeller" });
+            // A full navigation discards the in-memory Redux store. Replace the
+            // shop page in history so Back cannot reopen the logged-in dashboard.
+            window.location.replace("/shop-login");
         }
     };
 
