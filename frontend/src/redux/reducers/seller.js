@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const sellerReducer = createReducer(initialState, {
-  LogoutSeller: () => ({ isLoading: false, isSeller: false }),
+  LogoutSeller: () => ({ ...initialState, isLoading: false, isSeller: false }),
   LoadSellerRequest: (state) => {
     state.isLoading = true;
   },
@@ -18,6 +18,7 @@ export const sellerReducer = createReducer(initialState, {
     state.isLoading = false;
     state.error = action.payload;
     state.isSeller = false;
+    state.seller = null;
   },
   // get all sellers ---admin
   getAllSellersRequest: (state) => {

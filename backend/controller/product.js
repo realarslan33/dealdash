@@ -12,12 +12,16 @@ const { deleteImage } = require("../utils/cloudinary");
 // create product
 router.post(
   "/create-product",
+  isSeller,
   upload.array("images"),
   uploadToCloudinary("products"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const shopId = req.body.shopId;
-      const shop = await Shop.findById(shopId);
+      if (shopId !== String(req.seller._id)) {
+        return next(new ErrorHandler("You can only create products for your own shop.", 403));
+      }
+      const shop = req.seller;
       if (!shop) {
         return next(new ErrorHandler("Shop Id is invalid!", 400));
       } else {

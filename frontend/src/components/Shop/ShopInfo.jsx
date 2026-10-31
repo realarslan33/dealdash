@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAllProductsShop } from "../../redux/actions/product";
 import { getImageUrl, server } from "../../server";
 import Loader from "../Layout/Loader";
@@ -14,6 +14,7 @@ const ShopInfo = ({ isOwner }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
 
@@ -43,7 +44,7 @@ const ShopInfo = ({ isOwner }) => {
             dispatch({ type: "LogoutSeller" });
             // A full navigation discards the in-memory Redux store. Replace the
             // shop page in history so Back cannot reopen the logged-in dashboard.
-            window.location.replace("/shop-login");
+            navigate("/shop-login", { replace: true });
         }
     };
 
